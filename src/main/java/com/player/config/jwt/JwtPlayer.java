@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 @Slf4j
@@ -19,18 +21,20 @@ public class JwtPlayer {
     @Value("${security.app.jwtSecret}")
     private String jwtSecret;
 
-    @Value("${security.app.jwtExpiration}")
-    private int jwtExpiration;
-
     public String generateJwtToken(final Authentication authentication) {
         final UserDTO userDto = (UserDTO) authentication.getPrincipal();
         return Jwts.builder()
                 .setSubject(userDto.getEmail())
                 .setIssuedAt(new Date())
                 .claim("username", userDto.getName())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpiration))
+                .setExpiration(Date.from(createTimeExpiration()))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
+    }
+
+    private Instant createTimeExpiration() {
+        Instant issuedAt = Instant.now().truncatedTo(ChronoUnit.SECONDS);
+        return issuedAt.plus(30, ChronoUnit.MINUTES);
     }
 
     public String getUserNameFromJwtToken(final String token) {
@@ -41,7 +45,7 @@ public class JwtPlayer {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
     }
 
-    public boolean validateJwtToken(final String authToken) {
+    public boolean validateJwtToken(final String authToken) throws ExpiredJwtException {
         Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
         return true;
     }
