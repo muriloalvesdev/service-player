@@ -1,0 +1,16 @@
+language: java
+
+jdk:
+  - openjdk11
+
+script:
+  - chmod u+x ./.ci/script.sh 
+  - chmod u+x mvnw
+  - ./.ci/script.sh
+
+env:
+ global:
+   - CODECOV_TOKEN="e788e3d8-3588-4774-a42e-421590bca9c7"
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
