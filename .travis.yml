@@ -10,7 +10,7 @@ script:
 
 env:
  global:
-   - CODECOV_TOKEN="e788e3d8-3588-4774-a42e-421590bca9c7"
+   - CODECOV_TOKEN='e788e3d8-3588-4774-a42e-421590bca9c7'
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
