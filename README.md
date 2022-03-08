@@ -1,4 +1,4 @@
-[![Build Status](https://app.travis-ci.com/muriloalvesdev/service-player.svg?branch=main)](https://travis-ci.com/muriloalvesdev/service-player)
+[![Build Status](https://app.travis-ci.com/muriloalvesdev/service-player.svg?branch=main)](https://app.travis-ci.com/github/muriloalvesdev/service-player)
 [![codecov](https://codecov.io/gh/muriloalvesdev/service-player/branch/main/graph/badge.svg)](https://codecov.io/gh/muriloalvesdev/service-player/)
 
 # Service Player
@@ -28,4 +28,4 @@
 - Execute o script docker para fazer um build da imagem e subir o container: `chmod u+x docker-run.sh && ./docker-run.sh`
 - Comando `chmod` [Mais informações](https://guialinux.uniriotec.br/chmod/)
 
-- Caso não tenha interesse em baixar o projeto e realizar esses procedimentos, você pode baixar a imagem pronta [aqui](https://hub.docker.com/r/muriloalvesdev/serviceplayer).
+- Caso não tenha interesse em baixar o projeto e realizar esses procedimentos, você pode baixar a imagem pronta [aqui](https://hub.docker.com/repository/docker/muriloalvesdev/serviceplayer).
