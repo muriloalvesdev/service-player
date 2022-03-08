@@ -1,5 +1,4 @@
 [![Build Status](https://app.travis-ci.com/muriloalvesdev/service-player.svg?branch=main)](https://app.travis-ci.com/github/muriloalvesdev/service-player)
-[![codecov](https://codecov.io/gh/muriloalvesdev/service-player/branch/main/graph/badge.svg)](https://codecov.io/gh/muriloalvesdev/service-player/)
 
 # Service Player
 ## Tecnologias 
