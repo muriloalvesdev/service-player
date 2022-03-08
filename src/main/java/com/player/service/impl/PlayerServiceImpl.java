@@ -1,31 +1,41 @@
 package com.player.service.impl;
 
-import com.player.service.PlayerService;
-import com.player.specification.resource.SearchPlayer;
-import com.player.dto.PlayerDto;
-import com.player.exception.PlayerNotFoundException;
+import com.player.model.Player;
+import com.player.model.Ranking;
 import com.player.repository.PlayerRepository;
+import com.player.service.PlayerService;
+import com.player.service.component.MoviesBattleComponent;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
+import java.util.List;
 
 @Service
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 class PlayerServiceImpl implements PlayerService {
-    private static final String MESSAGE_NOT_FOUND = "Player not found!";
-
-    private final PlayerRepository playerRepository;
-
-    public PlayerDto search(SearchPlayer searchPlayer) {
-        return null;
+    private final MoviesBattleComponent moviesBattleComponent;
+    private final PlayerRepository repository;
+    @Override
+    public List<Player> findByRanking(final Ranking ranking) {
+        return this.repository.findByRanking(ranking);
     }
 
-    public PlayerDto findById(final UUID uuid) {
-        return this.playerRepository.findById(uuid)
-                .map(PlayerDto::build)
-                .orElseThrow(() -> new PlayerNotFoundException(MESSAGE_NOT_FOUND));
+    @Override
+    public List<Object> playing(final String email) {
+        return this.moviesBattleComponent.playing(email);
+    }
+
+    @Override
+    public Object match(final String email,
+                                     final String title,
+                                     final List<Object> movies) {
+        return this.moviesBattleComponent.match(email, title, movies);
+    }
+
+    @Override
+    public List<Object> start(final String email) {
+        return this.moviesBattleComponent.start(email);
     }
 
 }

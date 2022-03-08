@@ -1,0 +1,33 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:latest
+    network_mode: bridge
+    container_name: postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    expose:
+    - 5432
+    ports:
+      - 5432:5432
+    environment:
+         - POSTGRES_PASSWORD=Mm17748900
+         - POSTGRES_IP_ADDRESS=172.17.0.2
+         - POSTGRES_USER=postgres
+         - POSTGRES_DB=player
+    restart: unless-stopped
+  serviceplayer:
+    image: muriloalvesdev/serviceplayer
+    network_mode: bridge
+    container_name: serviceplayer
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    links:
+      - postgres
+volumes:
+  postgres-data:

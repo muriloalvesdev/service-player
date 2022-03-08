@@ -9,14 +9,22 @@ import javax.persistence.*;
 @Getter
 @Builder
 @Entity
-@Table(name = "roles")
-public class Role {
+@Table(name = "rankng")
+public class Ranking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private RoleName name;
+    @Column(name = "count_quiz")
+    private double countQuiz;
 
+    public Ranking update() {
+        this.countQuiz += 1;
+        return this;
+    }
+
+    public void reset() {
+        this.countQuiz = 0;
+    }
 }

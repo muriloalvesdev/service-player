@@ -5,23 +5,19 @@ import com.player.dto.LoginDTO;
 import com.player.dto.RegisterDTO;
 import com.player.exception.ExistingEmailException;
 import com.player.exception.RoleNotFoundException;
-import com.player.model.AccessToken;
-import com.player.model.Player;
-import com.player.model.Role;
-import com.player.model.RoleName;
+import com.player.model.*;
 import com.player.repository.PlayerRepository;
+import com.player.repository.RankingRepository;
 import com.player.repository.RoleRepository;
-
 import com.player.service.AuthRegister;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 
 import java.util.Set;
 
@@ -33,6 +29,7 @@ class AuthRegisterImpl implements AuthRegister {
     private static final String ROLE_NOT_FOUND = "Role not found!.";
 
     private final PlayerRepository playerRepository;
+    private final RankingRepository rankingRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder encoder;
     private final JwtPlayer jwtPlayer;
@@ -46,11 +43,18 @@ class AuthRegisterImpl implements AuthRegister {
                 .findByName(RoleName.ROLE_PLAYER)
                 .orElseThrow(() -> new RoleNotFoundException(ROLE_NOT_FOUND));
 
+        final Ranking ranking = this.rankingRepository
+                .saveAndFlush(Ranking.builder().countQuiz(0.0).build());
+
+
         final Player player = Player.builder()
                 .email(registerData.getEmail())
                 .firstName(registerData.getFirstName())
                 .lastName(registerData.getLastName())
                 .roles(Set.of(role))
+                .status(Status.NOT_PLAYING)
+                .failedCount(0)
+                .ranking(ranking)
                 .password(this.encoder.encode(registerData.getPassword()))
                 .build();
 

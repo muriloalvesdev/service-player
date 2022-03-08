@@ -1,13 +1,17 @@
 package com.player.service;
 
-import com.player.specification.resource.SearchPlayer;
-import com.player.dto.PlayerDto;
+import com.player.model.Player;
+import com.player.model.Ranking;
 
-import java.util.UUID;
+import java.util.List;
 
 public interface PlayerService {
 
-    PlayerDto findById(UUID uuid);
+    List<Player> findByRanking(Ranking ranking);
 
-    PlayerDto search(SearchPlayer searchPlayer);
+    List<Object> playing(final String email);
+
+    Object match(String email, String title, List<Object> movies);
+
+    List<Object> start(String email);
 }
